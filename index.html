@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced SEO Quiz</title>
+<meta name="description" content="A 50-question advanced SEO quiz from Mohit's SEO Training. Answer one question at a time and get your score and rank at the end.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one narrow exam sheet. A 50-notch progress rail on top, one question in the middle, result sheet at the end. */
+:root{
+  --bg:#eef3f7; --surface:#ffffff; --sunk:#f4f8fb;
+  --ink:#16213d; --muted:#56627a; --line:#d3dde8;
+  --heading:#23386f; --brand-a:#23386f; --brand-b:#4590a5; --on-brand:#ffffff;
+  --pick-bg:#e6f1f5; --pick-line:#4590a5;
+  --good:#1c7c54; --good-bg:#e3f4ec; --warn:#9a6208; --warn-bg:#fbf0d9; --bad:#b93a32; --bad-bg:#fbe7e5;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1524; --surface:#162038; --sunk:#111a2e;
+    --ink:#e8edf8; --muted:#9dabc6; --line:#2b3959;
+    --heading:#cfdcff; --brand-a:#2f4a94; --brand-b:#4a9db4; --on-brand:#ffffff;
+    --pick-bg:#1c3346; --pick-line:#5fb3c9;
+    --good:#5fd09c; --good-bg:#143427; --warn:#f0bd5a; --warn-bg:#3a2c10; --bad:#ff8f86; --bad-bg:#3d1b19;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1524; --surface:#162038; --sunk:#111a2e;
+  --ink:#e8edf8; --muted:#9dabc6; --line:#2b3959;
+  --heading:#cfdcff; --brand-a:#2f4a94; --brand-b:#4a9db4; --on-brand:#ffffff;
+  --pick-bg:#1c3346; --pick-line:#5fb3c9;
+  --good:#5fd09c; --good-bg:#143427; --warn:#f0bd5a; --warn-bg:#3a2c10; --bad:#ff8f86; --bad-bg:#3d1b19;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0;padding-inline:16px;padding-block:24px}
+.sheet{max-width:760px;margin-inline:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.band{height:6px;background:linear-gradient(90deg,var(--brand-a),var(--brand-b))}
+.pad{padding:28px clamp(18px,5vw,40px) 32px;display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,6vw,44px);line-height:1.05;letter-spacing:-.02em;color:var(--heading);margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(20px,3.6vw,25px);line-height:1.25;letter-spacing:-.01em;color:var(--ink);margin:0;text-wrap:balance}
+h3{font-family:var(--body);font-weight:700;font-size:15px;margin:0;color:var(--heading)}
+p{margin:0;max-width:62ch}
+code{font-family:var(--mono);font-size:.88em;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:.05em .35em;overflow-wrap:anywhere}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:13px;color:var(--muted);margin:0;padding:0;list-style:none}
+.facts b{color:var(--ink);font-weight:600}
+.bands{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.bands li{display:grid;grid-template-columns:minmax(108px,auto) 1fr;gap:14px;align-items:baseline;padding:10px 14px;background:var(--sunk);border-radius:9px}
+.bands .range{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.bands strong{font-weight:700}
+.tone-good{color:var(--good)} .tone-warn{color:var(--warn)} .tone-bad{color:var(--bad)}
+.btn{font:inherit;font-weight:700;border-radius:10px;padding:12px 22px;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px}
+.btn-primary{background:linear-gradient(90deg,var(--brand-a),var(--brand-b));color:var(--on-brand)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--heading);border-color:var(--line)}
+.btn:focus-visible,.opt:focus-visible,.linkish:focus-visible{outline:3px solid var(--pick-line);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.row.split{justify-content:space-between}
+
+/* quiz */
+.meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:center}
+.count{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.count b{color:var(--heading);font-weight:600;font-size:15px}
+.chip{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--heading);background:var(--pick-bg);border-radius:999px;padding:4px 11px}
+.rail{display:grid;grid-template-columns:repeat(50,1fr);gap:2px;height:8px}
+.rail i{background:var(--line);border-radius:2px}
+.rail i.done{background:var(--brand-b)}
+.rail i.now{background:var(--brand-a);outline:2px solid var(--pick-line);outline-offset:1px}
+.opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.opt{font:inherit;text-align:left;width:100%;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);cursor:pointer;min-width:0}
+.opt:hover{border-color:var(--pick-line)}
+.opt .key{font-family:var(--mono);font-weight:600;font-size:13px;width:28px;height:28px;border-radius:7px;display:grid;place-items:center;background:var(--sunk);color:var(--muted);border:1px solid var(--line)}
+.opt .txt{min-width:0;overflow-wrap:anywhere}
+.opt[aria-checked="true"]{border-color:var(--pick-line);background:var(--pick-bg)}
+.opt[aria-checked="true"] .key{background:var(--brand-a);color:var(--on-brand);border-color:var(--brand-a)}
+.hint{font-size:13px;color:var(--muted)}
+
+/* result */
+.score{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 22px}
+.score .num{font-family:var(--display);font-weight:700;font-size:clamp(54px,13vw,88px);line-height:.9;letter-spacing:-.03em;color:var(--heading);font-variant-numeric:tabular-nums}
+.score .of{font-family:var(--mono);font-size:14px;color:var(--muted);padding-bottom:8px}
+.verdict{border-radius:11px;padding:16px 18px;display:grid;gap:4px}
+.verdict.good{background:var(--good-bg)} .verdict.warn{background:var(--warn-bg)} .verdict.bad{background:var(--bad-bg)}
+.verdict .label{font-family:var(--display);font-weight:700;font-size:24px;line-height:1.15}
+.verdict.good .label{color:var(--good)} .verdict.warn .label{color:var(--warn)} .verdict.bad .label{color:var(--bad)}
+.topics{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.topics li{display:grid;grid-template-columns:minmax(0,200px) 1fr auto;gap:12px;align-items:center;font-size:14px}
+.topics .bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.topics .bar span{display:block;height:100%;background:var(--brand-b);border-radius:4px}
+.topics .n{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.review{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.review li{border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:7px;min-width:0}
+.review .q{font-weight:600}
+.review .a{font-size:14.5px;overflow-wrap:anywhere}
+.review .tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+.review .why{font-size:14px;color:var(--muted)}
+.linkish{font:inherit;font-weight:600;background:none;border:0;padding:0;color:var(--heading);text-decoration:underline;cursor:pointer}
+hr{border:0;border-top:1px solid var(--line);margin:0;width:100%}
+@media (max-width:520px){
+  .topics li{grid-template-columns:1fr auto}
+  .topics .bar{grid-column:1 / -1;order:3}
+  .bands li{grid-template-columns:1fr}
+  .btn{flex:1 1 auto}
+}
+@media (prefers-reduced-motion:no-preference){ .rail i,.opt{transition:background-color .15s,border-color .15s} }
+</style>
+</head>
+<body>
+<main class="sheet" id="app">
+  <div class="band"></div>
+
+  <section class="pad" id="intro">
+    <p class="eyebrow">Mohit's SEO Training</p>
+    <h1>Advanced SEO Quiz</h1>
+    <p>Fifty questions on on-page SEO, hreflang, canonical and noindex tags, indexing reports, soft and hard 404s, topical maps, GEO, AEO, website audits, backlinking, GA4 and Search Console. You answer one question at a time. Your score and rank appear at the end.</p>
+    <ul class="facts">
+      <li><b>50</b> questions</li>
+      <li><b>4</b> options each</li>
+      <li>about <b>25</b> minutes</li>
+    </ul>
+    <hr>
+    <h3>How your score is ranked</h3>
+    <ul class="bands">
+      <li><span class="range">90% and above</span><span><strong class="tone-good">Good rank.</strong> You can handle advanced SEO work.</span></li>
+      <li><span class="range">60% to 89%</span><span><strong class="tone-warn">Upskilling is required.</strong> The basics are there; the advanced topics need work.</span></li>
+      <li><span class="range">Below 60%</span><span><strong class="tone-bad">Learn SEO.</strong> Start with a structured course.</span></li>
+    </ul>
+    <div class="row">
+      <button class="btn btn-primary" id="startBtn" type="button">Start the quiz</button>
+      <span class="hint">You can go back and change an answer before you finish.</span>
+    </div>
+  </section>
+
+  <section class="pad" id="quiz" hidden>
+    <div class="meta">
+      <span class="count">Question <b id="qNum">1</b> of 50</span>
+      <span class="chip" id="qTopic">Topic</span>
+    </div>
+    <div class="rail" id="rail" aria-hidden="true"></div>
+    <h2 id="qText" tabindex="-1">Question</h2>
+    <ul class="opts" id="opts" role="radiogroup" aria-labelledby="qText"></ul>
+    <div class="row split">
+      <button class="btn btn-ghost" id="backBtn" type="button">Back</button>
+      <button class="btn btn-primary" id="nextBtn" type="button" disabled>Next question</button>
+    </div>
+    <p class="hint">Keyboard: press A, B, C or D to choose, then Enter.</p>
+  </section>
+
+  <section class="pad" id="result" hidden>
+    <p class="eyebrow">Your result</p>
+    <div class="score">
+      <span class="num" id="rPct">0%</span>
+      <span class="of" id="rOf">0 of 50 correct</span>
+    </div>
+    <div class="verdict" id="rVerdict">
+      <span class="label" id="rLabel">Rank</span>
+      <span id="rMsg">Message</span>
+    </div>
+    <div class="row">
+      <a class="btn btn-primary" id="rCta" href="https://mohitsseotraining.com/" target="_blank" rel="noopener">Explore the SEO course</a>
+      <button class="btn btn-ghost" id="retakeBtn" type="button">Retake the quiz</button>
+    </div>
+    <hr>
+    <h3>Score by topic</h3>
+    <ul class="topics" id="rTopics"></ul>
+    <hr>
+    <div class="row split">
+      <h3 id="rReviewTitle">Questions to review</h3>
+      <button class="linkish" id="toggleAll" type="button">Show all 50 answers</button>
+    </div>
+    <ul class="review" id="rReview"></ul>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  // ---- Result bands. Change these two numbers to move the cut-offs.
+  var GOOD_RANK_FROM = 90;   // 90% and above
+  var UPSKILL_FROM   = 60;   // 60% to just under GOOD_RANK_FROM
+  var COURSE_URL = "https://mohitsseotraining.com/";
+
+  // Each question: t = topic, q = question, o = options (the FIRST option is the correct one; order is shuffled on screen), w = why.
+  var Q = [
+  {"t": "On-page SEO", "q": "Which situation makes Google most likely to replace your `<title>` in the search result?", "o": ["The title is stuffed with keywords or does not describe the page's main content", "The title is under 60 characters and starts with the brand name instead of the keyword", "The title matches the H1 word for word on a product page", "The title ends with the current year in brackets"], "w": "Google rewrites title links that are stuffed, boilerplate or out of step with the page."},
+  {"t": "On-page SEO", "q": "Which statement about meta descriptions is correct?", "o": ["They are not a ranking factor, but a good one can lift click-through rate", "They are a direct ranking factor when the keyword sits in the first 60 characters", "They are always shown as written if they stay under 155 characters", "They are ignored unless the page also has a meta keywords tag"], "w": "Google often writes its own snippet from the page. A clear description still helps clicks when it is used."},
+  {"t": "On-page SEO", "q": "A page template outputs three H1 tags. What is Google's stated position?", "o": ["Google can handle it, but one clear H1 that states the topic is still best practice", "Google indexes the first H1 only and ignores every other heading further down the page", "Google treats several H1 tags as keyword stuffing and demotes the page", "Google needs exactly one H1 before it will show the page for any query"], "w": "Multiple H1s do not break indexing. A single clear H1 helps users and search engines understand the page."},
+  {"t": "On-page SEO", "q": "Which internal link gives Google the clearest signal about the target page?", "o": ["A crawlable `<a href>` in body copy with the anchor 'local SEO packages'", "A crawlable `<a href>` in the footer with the anchor 'click here'", "A JavaScript `onclick` button in body copy with the label 'local SEO packages' on it", "An image link in the header with no alt text and no title attribute"], "w": "Google needs an a element with an href to follow a link, and descriptive anchor text tells it what the target is about."},
+  {"t": "On-page SEO", "q": "Two of your pages target the same query with the same intent, and both rank poorly. What is usually the best fix?", "o": ["Merge them into one stronger page and 301 the weaker URL to it", "Add `noindex` to both pages and publish a third page on the same topic", "Point each page's canonical tag at the other page", "Add the target keyword more often to both pages"], "w": "Consolidation combines links and relevance. If the intents really differ, differentiate the pages instead."},
+  {"t": "Hreflang tag", "q": "Which hreflang value is valid for English speakers in the United Kingdom?", "o": ["`en-GB`", "`en-UK`", "`uk-EN`", "`eng-GB`"], "w": "Hreflang uses ISO 639-1 language codes and ISO 3166-1 alpha-2 region codes. The UK's code is GB."},
+  {"t": "Hreflang tag", "q": "Page A lists page B in its hreflang tags, but page B does not list page A. What happens?", "o": ["The annotations may be ignored, because hreflang must be reciprocal", "Page B inherits page A's annotations, because hreflang passes through links", "Google indexes only page A, because it declared hreflang first", "Both pages are treated as duplicates, because the set is incomplete"], "w": "Every page in a hreflang set must reference all the others, and itself."},
+  {"t": "Hreflang tag", "q": "What does `hreflang=\"x-default\"` tell Google?", "o": ["Which page to show users whose language or region matches no listed version", "Which page is the canonical version for every language in the set", "Which page should rank first when two language versions compete for one query", "Which page Google should crawl first when it discovers the set"], "w": "x-default is the fallback, often a language selector or the global page."},
+  {"t": "Hreflang tag", "q": "An English page for India has hreflang to the US page, and its canonical tag also points to the US page. What happens?", "o": ["The India page is treated as a duplicate of the US page, so its hreflang is not used", "The India page still ranks in India, because hreflang always overrides the canonical tag", "Both pages drop out of the index, because the two signals conflict", "The US page inherits the India page's hreflang and serves both markets"], "w": "Each page in a hreflang set must be indexable and canonicalise to itself."},
+  {"t": "Canonical tag", "q": "How does Google treat a `rel=\"canonical\"` tag?", "o": ["As a strong hint that it can override when other signals disagree", "As a directive that it follows in every case, just like a 301 redirect", "As a signal that it uses only to group hreflang alternates", "As a rule that also stops it from crawling the duplicate URL"], "w": "Canonical is one signal among redirects, internal links and sitemaps. Google may pick a different canonical."},
+  {"t": "Canonical tag", "q": "Where must a `rel=\"canonical\"` link appear for Google to use it?", "o": ["In the `<head>` of the HTML, or in an HTTP `Link` header", "In the `<body>`, directly above the first paragraph of main content", "In the robots.txt file, next to the sitemap line", "In the XML sitemap, inside each `<url>` entry"], "w": "A canonical link in the body is ignored. The HTTP header version is useful for PDFs and other files."},
+  {"t": "Canonical tag", "q": "Pages 2, 3 and 4 of a category all canonicalise to page 1. What is the risk?", "o": ["Products linked only from deeper pages may be crawled less and leave the index", "Page 1 receives a duplicate content penalty for the product listings repeated across pages", "Google merges every product onto page 1 and ranks that page higher", "The deeper pages are reported as soft 404 errors in Search Console"], "w": "Paginated pages are not duplicates of page 1. Each should canonicalise to itself."},
+  {"t": "Canonical tag", "q": "Which combination sends Google the most consistent canonical signal?", "o": ["Self-referencing canonical, internal links to that URL, and that URL in the sitemap", "Canonical tag pointing to URL A, internal links to URL B, and URL B in the sitemap", "Canonical to URL A, plus a `noindex` tag on URL A itself", "Canonical to URL A, plus a robots.txt disallow on URL A"], "w": "Google weighs canonicals, redirects, internal links and sitemaps together. They should all name the same URL."},
+  {"t": "Noindex tag", "q": "A URL is blocked in robots.txt and also carries a `noindex` meta tag. What is the likely outcome?", "o": ["Google cannot crawl the page to read the `noindex`, so the URL can still be indexed", "Google obeys both rules, so the URL drops out of the index within a few days", "The `noindex` tag overrides robots.txt, so Google crawls the page and removes it from the index", "Google treats the two rules as a conflict, returns a 404 and removes the URL"], "w": "A blocked page is never fetched, so its noindex tag is never read. Allow crawling if you want the noindex to work."},
+  {"t": "Noindex tag", "q": "What is the most reliable way to keep a PDF file out of Google's index?", "o": ["Send an `X-Robots-Tag: noindex` HTTP header with the file", "Add a `noindex` meta tag in the PDF's document properties", "Disallow the PDF's URL in the robots.txt file", "Add `rel=\"nofollow\"` to every internal link that points to the file"], "w": "Non-HTML files cannot hold a meta tag, so the noindex must go in the HTTP header."},
+  {"t": "Noindex tag", "q": "A page has both `noindex` and a canonical tag that points to a different URL. Why is that a problem?", "o": ["The signals conflict: one says drop this page, the other says it equals another page", "The signals combine: Google indexes both URLs and shows them as duplicates", "The signals transfer: the canonical target also becomes noindex in every case, with no exception", "The signals count as manipulation, so the site can receive a manual action"], "w": "Use a canonical for duplicates and noindex for pages that should not appear at all. Do not mix them."},
+  {"t": "Crawled, not indexed", "q": "In Search Console, what does 'Crawled – currently not indexed' tell you?", "o": ["Google fetched the page and decided, for now, not to add it to the index", "Google found the URL but has not fetched the page yet", "Google was blocked from fetching the page by robots.txt", "Google fetched the page and found a `noindex` directive in the HTML or the header"], "w": "The crawl happened. The page was left out, most often because of quality or duplication."},
+  {"t": "Crawled, not indexed", "q": "Hundreds of thin tag pages sit in 'Crawled – currently not indexed'. What is the most useful response?", "o": ["Improve or consolidate the pages so each offers something the indexed pages do not", "Request indexing for each URL every day in the URL Inspection tool until they are accepted", "Add every URL to a new XML sitemap and resubmit it each week", "Raise the `<priority>` value of those URLs in the sitemap"], "w": "Repeated indexing requests do not change Google's view of a page's value."},
+  {"t": "Crawled, not indexed", "q": "RSS feed URLs and `?page=` parameter URLs appear under 'Crawled – currently not indexed'. What should you do?", "o": ["Nothing in most cases, because those URLs are not meant to be indexed", "Block them in robots.txt so that the report clears within about a week", "301 redirect each of them to the homepage", "Add them to the XML sitemap with a recent `<lastmod>`"], "w": "The report is a problem only when it lists pages you want in the index."},
+  {"t": "Discovered, not indexed", "q": "In Search Console, what does 'Discovered – currently not indexed' mean?", "o": ["Google knows the URL exists but has not crawled it yet", "Google crawled the page and chose not to index it", "Google was blocked from the page by robots.txt", "Google found a `noindex` tag when it last crawled and rendered the page"], "w": "Discovered means the crawl has not happened yet. Crawled means Google fetched the page and passed."},
+  {"t": "Discovered, not indexed", "q": "On a large site, what most often keeps URLs in 'Discovered – currently not indexed'?", "o": ["Google expects crawling to overload the server, or sees too little value to crawl yet", "The pages carry a `noindex` tag that Google read and stored on its last visit to each URL", "The pages returned a 404 the last time Google fetched them", "The pages have a canonical tag that points to a different URL"], "w": "Google postpones the crawl when server capacity or perceived site quality is low."},
+  {"t": "Discovered, not indexed", "q": "Which action helps most to move important pages out of 'Discovered – currently not indexed'?", "o": ["Link to them from strong indexed pages and cut the low-value URLs around them", "Add a `Crawl-delay` rule so that Googlebot spreads out its requests", "Add `noindex` to the pages, wait a week, then remove it again to trigger a fresh crawl", "Change their `<changefreq>` value in the sitemap to 'daily'"], "w": "Internal links raise crawl demand, and fewer junk URLs leave more crawl capacity for the pages that matter."},
+  {"t": "Soft and hard 404", "q": "What is a soft 404?", "o": ["A URL that returns 200 but shows an error message or almost no content", "A URL that returns 404 but still has backlinks and internal links pointing to it", "A URL that returns 410 after the page was removed on purpose", "A URL that returns 404 only for mobile user agents"], "w": "A hard 404 sends the 404 or 410 status code. A soft 404 looks like an error to users but returns 200."},
+  {"t": "Soft and hard 404", "q": "A page is removed for good and has no replacement. What should its URL return?", "o": ["A 404 or 410 status code", "A 301 redirect to the homepage", "A 302 redirect to a category page", "A 200 status code with a 'page removed' message"], "w": "A real 404 or 410 is the honest answer. Redirects to unrelated pages are treated as soft 404s."},
+  {"t": "Soft and hard 404", "q": "A discontinued product URL is redirected to the homepage. How does Google usually treat it?", "o": ["As a soft 404, because the homepage is not a relevant replacement", "As a normal 301, so every ranking signal passes to the homepage", "As a temporary move, so the old URL stays in the index", "As cloaking, so the site can receive a manual action"], "w": "Redirect to the closest equivalent page. If there is none, return a 404 or 410."},
+  {"t": "Topical map", "q": "What is a topical map?", "o": ["A plan of every subtopic and question in a subject, grouped into pillars and clusters", "A list of the highest-volume keywords in a niche, sorted by keyword difficulty and CPC", "A diagram of a site's folder structure, exported from a crawler after an audit", "A report of which competitor domains link to each page in a content cluster"], "w": "A topical map covers a subject in full and shows how the pages connect, so the site builds topical authority."},
+  {"t": "Topical map", "q": "In a pillar-and-cluster model, how should the internal links run?", "o": ["Clusters link to the pillar, the pillar links to each cluster, and related clusters interlink", "Cluster pages link only to the homepage, so that authority is concentrated there", "The pillar links to each cluster page, but cluster pages never link back to it", "Every page links to every other page on the site from one sitewide footer block of links"], "w": "Two-way links between pillar and clusters show Google that the pages belong to one topic."},
+  {"t": "Topical map", "q": "You are building a topical map for 'local SEO'. Which step comes first?", "o": ["Collect the entities, subtopics and questions people search, then group them by intent", "Write the pillar page, then look for keywords to add to it afterwards", "Publish thirty short posts on the topic, then merge the ones that earn impressions after a month", "Build links to the homepage, then decide which pages to create"], "w": "Research and grouping come before writing. The map decides which pages exist and how they link."},
+  {"t": "GEO", "q": "What does Generative Engine Optimization (GEO) aim for?", "o": ["Being cited or mentioned in answers written by AI systems such as ChatGPT and Gemini", "Ranking in the local map pack for searches made near a business location", "Serving different content and prices to users based on the country of their IP address", "Generating thousands of location pages from one template with AI"], "w": "GEO is about visibility inside generated answers, not only in the list of blue links."},
+  {"t": "GEO", "q": "What does the `Google-Extended` robots.txt token control?", "o": ["Whether your content may be used for Gemini training and grounding, not for Search", "Whether your pages may appear as links in AI Overviews and AI Mode", "Whether Googlebot may crawl your pages for the main Search index", "Whether your content may be shown in Google Discover, Google News and the Top Stories carousel"], "w": "Blocking Google-Extended does not remove a site from Search or change its ranking."},
+  {"t": "GEO", "q": "You want your pages to appear in ChatGPT search but do not want them used to train OpenAI's models. What do you set in robots.txt?", "o": ["Allow `OAI-SearchBot` and disallow `GPTBot`", "Allow `GPTBot` and disallow `OAI-SearchBot`", "Disallow both `GPTBot` and `OAI-SearchBot`", "Disallow `ChatGPT-User` and allow `GPTBot`"], "w": "OAI-SearchBot powers ChatGPT search results. GPTBot collects content for model training."},
+  {"t": "GEO", "q": "What does a page need in order to be shown as a link in Google's AI Overviews?", "o": ["To be indexed and eligible for a snippet in Search; no special markup is needed", "To have an llms.txt file that lists the page with a short summary", "To carry dedicated AI schema markup that passes the Rich Results Test with no warnings", "To be submitted to a separate AI index through Search Console"], "w": "Google's guidance says the normal Search requirements apply to AI Overviews and AI Mode."},
+  {"t": "AEO", "q": "Which content pattern is most likely to be lifted into a featured snippet or a direct answer?", "o": ["A question as the heading, followed at once by a 40 to 60 word answer", "A question as the heading, followed by a long personal story before the answer arrives", "An answer placed inside an image, with the question in the alt text", "An answer inside an accordion that loads only after a click"], "w": "Answer engines extract short, self-contained answers that sit right under the question."},
+  {"t": "AEO", "q": "What did Google change about FAQ rich results in August 2023?", "o": ["It limited them to well-known, authoritative government and health sites", "It opened them to every site, and removed the limit on how many questions are shown", "It moved them out of web search and into Google Discover", "It merged them with HowTo results into one new result type"], "w": "Most sites lost FAQ rich results then. FAQ markup can still help machines read question and answer pairs."},
+  {"t": "AEO", "q": "Your FAQ markup passes the Rich Results Test with no errors. What does that guarantee?", "o": ["Only that the page is eligible; Google decides whether to show a rich result", "That the rich result will appear in search within about a week", "That the page will receive a ranking boost for its main queries once Google recrawls it", "That the page will be indexed even if the content is thin"], "w": "Valid markup makes a page eligible. The markup must also match content that users can see."},
+  {"t": "Website audit", "q": "What can server log files tell you that no crawler tool or Search Console report shows in full?", "o": ["Exactly which URLs each search bot requested, when, and with which status code", "Exactly which queries each URL ranks for, and at what average position", "Exactly how many backlinks each URL has earned, and from which domains", "Exactly how fast each URL loads for real users on mobile and on desktop devices"], "w": "Logs record every bot request, so they show wasted crawl, ignored sections and real crawl frequency."},
+  {"t": "Website audit", "q": "In an audit you find http:// URLs that return 200 with a canonical to the https:// version. What is the best fix?", "o": ["301 redirect every http:// URL to its https:// version at server level", "Leave it as it is; the canonical tag fully solves the duplication and the security issue", "Add a `noindex` tag to the http:// version of every page", "Block all http:// URLs in the robots.txt file"], "w": "A canonical is a hint. A server-level 301 removes the duplicate and protects users."},
+  {"t": "Website audit", "q": "A crawler reports 'orphan pages' after you connect the XML sitemap and analytics. What are they?", "o": ["URLs found in the sitemap or analytics that no crawled page links to", "URLs that return a 404 but still receive internal links", "URLs that are blocked by robots.txt but are still listed in the XML sitemap", "URLs whose canonical tag points to a different domain"], "w": "Orphans get no internal link equity and are crawled rarely. Link to them or remove them."},
+  {"t": "Website audit", "q": "Which data does Google Search use to assess a page's Core Web Vitals?", "o": ["Field data from real Chrome users in the Chrome UX Report, at the 75th percentile", "Lab data from Lighthouse, using the overall performance score out of 100", "Lab data from a performance test that Googlebot runs each time it crawls and renders the page", "Field data from Search Console, using the fastest load in the past 28 days"], "w": "Lab tools help you debug. Search uses field data: LCP 2.5 s, INP 200 ms and CLS 0.1 or better is 'good'."},
+  {"t": "Backlinking", "q": "How does Google treat `rel=\"nofollow\"` today?", "o": ["As a hint for crawling, indexing and ranking, not a strict directive", "As a directive that always blocks crawling, indexing and ranking credit", "As a spam signal that counts against the page that links out", "As an outdated attribute that it now ignores in every case"], "w": "Nofollow became a ranking hint in 2019 and a crawling and indexing hint in March 2020."},
+  {"t": "Backlinking", "q": "Which attribute does Google recommend for a paid or sponsored link?", "o": ["`rel=\"sponsored\"`", "`rel=\"ugc\"`", "`rel=\"noopener\"`", "`rel=\"external\"`"], "w": "Sponsored is preferred for paid links. Nofollow is still accepted, and ugc is for user-generated content."},
+  {"t": "Backlinking", "q": "When does Google say the disavow tool is worth using?", "o": ["When you have a manual action for unnatural links, or paid links likely to cause one", "When a monthly backlink audit shows any new links from low-authority domains", "When a competitor ranks above you with links from the same referring domains", "When a core update is announced, so that weak links are cleared before it finishes rolling out"], "w": "Google ignores most low-quality links on its own. Disavowing good links can hurt."},
+  {"t": "Backlinking", "q": "Which link building tactic breaks Google's spam policies?", "o": ["Giving money or free products in exchange for links that pass ranking credit", "Publishing original research that journalists then choose to cite", "Asking a site to fix a broken link that pointed to your old URL", "Writing a guest article for a trade site whose author link carries `rel=\"nofollow\"`"], "w": "Buying or exchanging links for ranking is link spam. Paid links must be qualified with sponsored or nofollow."},
+  {"t": "GA4", "q": "In GA4, what makes a session an 'engaged session'?", "o": ["It lasts over 10 seconds, or has a key event, or has two or more page views", "It lasts over 30 seconds, and the user views at least two pages", "It includes a scroll to 90% of the page, or a click on an outbound link, or a file download", "It comes from organic search and ends with a key event"], "w": "Engagement rate is engaged sessions divided by all sessions. Bounce rate is its inverse."},
+  {"t": "GA4", "q": "In GA4, what is the difference between 'Session source' and 'First user source'?", "o": ["Session source is that session's channel; first user source is what first acquired the user", "Session source is where the user came from; first user source is the first page they saw", "Session source uses last-click attribution data; first user source uses data-driven attribution", "They are the same dimension, shown under two names in different reports"], "w": "Use session-scoped dimensions for traffic reports and user-scoped ones for acquisition reports."},
+  {"t": "GA4", "q": "In GA4, which name is now used for the events you mark as most important to the business?", "o": ["Key events", "Goal completions", "Engaged events", "Enhanced events"], "w": "GA4 renamed conversions to key events in 2024. 'Conversions' now refers to events shared with Google Ads."},
+  {"t": "GA4", "q": "Why do GA4 organic sessions and Search Console clicks differ for the same page?", "o": ["GSC counts clicks on Google Search, while GA4 counts sessions that fired the tag", "GA4 samples organic traffic at 10%, so its numbers are always the lower of the two reports", "GSC includes clicks from Bing and DuckDuckGo, while GA4 leaves them out", "GA4 counts bots as organic sessions, while GSC removes every bot"], "w": "Consent, ad blockers, other search engines and session rules all make the two numbers diverge."},
+  {"t": "Search Console", "q": "How far back does Search Console keep performance data?", "o": ["16 months", "6 months", "12 months", "25 months"], "w": "Export the data on a schedule if you need a longer history."},
+  {"t": "Search Console", "q": "How is 'average position' calculated in the Search Console performance report?", "o": ["From the topmost position your site held on each impression, averaged across them", "From the average position of every one of your URLs that appeared for the query that day", "From a daily rank check that Google runs from one fixed location", "From the position your homepage held for the query on each day"], "w": "A position is recorded only when the result earned an impression."},
+  {"t": "Search Console", "q": "In URL Inspection, the 'Google-selected canonical' differs from the 'User-declared canonical'. What does that mean?", "o": ["Google judged that another URL represents the content better and indexed that one", "Google could not fetch the page, so it guessed which URL was canonical from the sitemap", "Google found two canonical tags and used whichever came first", "Google will switch to your declared canonical within 48 hours"], "w": "Check redirects, internal links and the sitemap, and make them agree with the canonical you want."}
+  ];
+
+  var TOTAL = Q.length;
+  var el = function(id){ return document.getElementById(id); };
+  var state = { started:false, done:false, i:0, picks:[], order:[] , showAll:false };
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function rich(s){ return esc(s).replace(/`([^`]+)`/g,"<code>$1</code>"); }
+  function shuffle(n){ var a=[],i,j,t; for(i=0;i<n;i++)a.push(i); for(i=n-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); t=a[i];a[i]=a[j];a[j]=t; } return a; }
+
+  function fresh(){
+    state.i=0; state.done=false; state.showAll=false;
+    state.picks=[]; state.order=[];
+    for(var k=0;k<TOTAL;k++){ state.picks.push(-1); state.order.push(shuffle(Q[k].o.length)); }
+  }
+
+  function show(id){
+    ["intro","quiz","result"].forEach(function(s){ el(s).hidden = (s!==id); });
+    postHeight();
+  }
+
+  function buildRail(){
+    var r=el("rail"), h=""; for(var k=0;k<TOTAL;k++) h+="<i></i>"; r.innerHTML=h;
+  }
+  function paintRail(){
+    var cells=el("rail").children;
+    for(var k=0;k<cells.length;k++){
+      cells[k].className = (k===state.i ? "now" : (state.picks[k]>-1 ? "done" : ""));
+    }
+  }
+
+  function renderQuestion(focus){
+    var item=Q[state.i], ord=state.order[state.i], pick=state.picks[state.i];
+    el("qNum").textContent = state.i+1;
+    el("qTopic").textContent = item.t;
+    el("qText").innerHTML = rich(item.q);
+    var html="";
+    for(var p=0;p<ord.length;p++){
+      var on = (pick===ord[p]);
+      html += '<li><button type="button" class="opt" role="radio" id="opt'+p+'" data-opt="'+ord[p]+'" aria-checked="'+(on?"true":"false")+'">'+
+              '<span class="key">'+"ABCD".charAt(p)+'</span><span class="txt">'+rich(item.o[ord[p]])+'</span></button></li>';
+    }
+    el("opts").innerHTML = html;
+    el("backBtn").hidden = (state.i===0);
+    el("nextBtn").disabled = (pick<0);
+    el("nextBtn").textContent = (state.i===TOTAL-1) ? "See my score" : "Next question";
+    paintRail();
+    if(focus){ try{ el("qText").focus({preventScroll:true}); }catch(e){} }
+    postHeight();
+  }
+
+  function choose(optIndex){
+    state.picks[state.i]=optIndex;
+    var btns=el("opts").querySelectorAll(".opt");
+    for(var b=0;b<btns.length;b++){ btns[b].setAttribute("aria-checked", String(Number(btns[b].getAttribute("data-opt"))===optIndex)); }
+    el("nextBtn").disabled=false;
+    paintRail();
+  }
+
+  function next(){
+    if(state.picks[state.i]<0) return;
+    if(state.i<TOTAL-1){ state.i++; renderQuestion(true); toTop(); }
+    else { state.done=true; renderResult(); show("result"); toTop(); }
+  }
+  function back(){ if(state.i>0){ state.i--; renderQuestion(true); toTop(); } }
+
+  function score(){ var c=0; for(var k=0;k<TOTAL;k++){ if(state.picks[k]===0) c++; } return c; }
+  function bandFor(pct){
+    if(pct>=GOOD_RANK_FROM) return {cls:"good",label:"Good rank",msg:"You scored in the top band. You are ready for advanced SEO work: audits, migrations and AI search projects.",cta:"See what to learn next"};
+    if(pct>=UPSKILL_FROM)   return {cls:"warn",label:"Upskilling is required",msg:"Your foundations are in place. Work on the topics with the lowest scores below, then take the quiz again.",cta:"Upskill with the SEO course"};
+    return {cls:"bad",label:"Learn SEO",msg:"The advanced topics are not in place yet. A structured course will get you there faster than scattered reading.",cta:"Start learning SEO"};
+  }
+
+  function renderResult(){
+    var c=score(), pct=Math.round(c/TOTAL*100), b=bandFor(pct);
+    el("rPct").textContent = pct+"%";
+    el("rOf").textContent = c+" of "+TOTAL+" correct";
+    el("rVerdict").className = "verdict "+b.cls;
+    el("rLabel").textContent = b.label;
+    el("rMsg").textContent = b.msg;
+    el("rCta").textContent = b.cta; el("rCta").href = COURSE_URL;
+
+    var topics=[], idx={};
+    for(var k=0;k<TOTAL;k++){
+      var t=Q[k].t; if(!(t in idx)){ idx[t]=topics.length; topics.push({t:t,n:0,c:0}); }
+      topics[idx[t]].n++; if(state.picks[k]===0) topics[idx[t]].c++;
+    }
+    var th="";
+    topics.forEach(function(x){
+      th+='<li><span>'+esc(x.t)+'</span><span class="bar"><span style="width:'+Math.round(x.c/x.n*100)+'%"></span></span><span class="n">'+x.c+' / '+x.n+'</span></li>';
+    });
+    el("rTopics").innerHTML=th;
+    renderReview();
+  }
+
+  function renderReview(){
+    var c=score(), wrong=TOTAL-c, h="";
+    for(var k=0;k<TOTAL;k++){
+      var ok=(state.picks[k]===0);
+      if(ok && !state.showAll) continue;
+      h+='<li><span class="tag '+(ok?"tone-good":"tone-bad")+'">Question '+(k+1)+' · '+esc(Q[k].t)+' · '+(ok?"Correct":"Incorrect")+'</span>'+
+         '<span class="q">'+rich(Q[k].q)+'</span>'+
+         (ok?"":'<span class="a"><b>Your answer:</b> '+rich(Q[k].o[state.picks[k]])+'</span>')+
+         '<span class="a"><b>Correct answer:</b> '+rich(Q[k].o[0])+'</span>'+
+         '<span class="why">'+rich(Q[k].w)+'</span></li>';
+    }
+    if(!h) h='<li><span class="q">Nothing to review. Every answer was correct.</span></li>';
+    el("rReview").innerHTML=h;
+    el("rReviewTitle").textContent = state.showAll ? "All 50 answers" : (wrong ? "Questions to review ("+wrong+")" : "Questions to review");
+    el("toggleAll").textContent = state.showAll ? "Show only the ones I missed" : "Show all 50 answers";
+    postHeight();
+  }
+
+  function toTop(){ try{ el("app").scrollIntoView({block:"start"}); }catch(e){} }
+
+  // Lets the page that embeds this quiz in an iframe match the iframe's height to the content.
+  function postHeight(){
+    try{
+      if(window.parent && window.parent!==window){
+        var h=Math.ceil(document.body.getBoundingClientRect().height);
+        window.parent.postMessage({type:"mst-seo-quiz:height",height:h},"*");
+      }
+    }catch(e){}
+  }
+
+  function start(saved){
+    buildRail();
+    if(saved && saved.picks && saved.picks.length===TOTAL && saved.order){
+      state.started=saved.started; state.done=saved.done; state.i=saved.i; state.picks=saved.picks; state.order=saved.order; state.showAll=false;
+    } else { fresh(); }
+    if(state.done){ renderResult(); show("result"); }
+    else if(state.started){ renderQuestion(false); show("quiz"); }
+    else { show("intro"); }
+
+    el("startBtn").addEventListener("click",function(){ fresh(); state.started=true; renderQuestion(true); show("quiz"); toTop(); });
+    el("nextBtn").addEventListener("click",next);
+    el("backBtn").addEventListener("click",back);
+    el("retakeBtn").addEventListener("click",function(){ fresh(); state.started=true; renderQuestion(true); show("quiz"); toTop(); });
+    el("toggleAll").addEventListener("click",function(){ state.showAll=!state.showAll; renderReview(); });
+    el("opts").addEventListener("click",function(e){
+      var b=e.target.closest ? e.target.closest(".opt") : null;
+      if(b) choose(Number(b.getAttribute("data-opt")));
+    });
+    document.addEventListener("keydown",function(e){
+      if(el("quiz").hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+      var k=(e.key||"").toLowerCase(), pos="abcd".indexOf(k);
+      if(pos<0) pos="1234".indexOf(k);
+      if(pos>-1 && k.length===1){
+        var b=el("opt"+pos); if(b){ choose(Number(b.getAttribute("data-opt"))); b.focus(); e.preventDefault(); }
+      } else if(k==="enter" && !el("nextBtn").disabled){
+        var tag=(document.activeElement && document.activeElement.id)||"";
+        if(tag!=="backBtn"){ e.preventDefault(); next(); }
+      }
+    });
+    window.addEventListener("resize",postHeight);
+    window.addEventListener("load",postHeight);
+  }
+
+  var hot = window.claude && window.claude.hot;
+  if(hot && hot.snapshot){ try{ hot.snapshot(function(){ return {started:state.started,done:state.done,i:state.i,picks:state.picks,order:state.order}; }); }catch(e){} }
+  if(hot && hot.ready){ hot.ready(start); } else { start((hot && hot.data) || {}); }
+})();
+</script>
+</body>
+</html>
